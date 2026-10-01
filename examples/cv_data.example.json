@@ -1,0 +1,42 @@
+{
+  "_note": "An INVENTED person, for trying the program out. Copy to Documents\\pulse_cv\\cv_data.json, or fill in Your details in the window.",
+  "name": "Anna Exempel",
+  "address": "Provgatan 1, 123 45 Exempelstad",
+  "phone": "070-000 00 00",
+  "email": "anna@exempel.se",
+  "place": "Exempelstad",
+  "profiles": {
+    "praktisk": {
+      "subtitle": "Praktiskt CV",
+      "summary": "Lagerarbetare med fyra års erfarenhet av orderplock och utleverans, truckkort A och B, van vid skiftarbete.",
+      "experience": [
+        {"date": "2019 – 2023", "title": "Lagerarbetare (orderplock, utleverans)", "org": "Nordfrakt AB, Exempelstad"},
+        {"date": "2016 – 2019", "title": "Butiksbiträde", "org": "Matboden, Exempelstad"},
+        {"date": "2014 – 2016", "title": "Personlig assistent", "org": "Omsorgsbolaget, Exempelstad"}
+      ],
+      "education": [
+        {"date": "2011 – 2014", "title": "Handels- och administrationsprogrammet", "org": "Exempelgymnasiet"}
+      ],
+      "qualifications": ["B-körkort", "Truckkort A och B"],
+      "interests": ["Löpning", "Matlagning", "Bygga datorer"],
+      "strengths": ["Noggrann", "Lugn under press", "Strukturerad", "Punktlig"],
+      "personality": [{"label": "Noggrannhet", "value": 9}, {"label": "Stresstålighet", "value": 8}]
+    },
+    "akademisk": {
+      "subtitle": "Akademiskt CV",
+      "summary": "Lagerarbetare med fyra års erfarenhet av orderplock och utleverans, truckkort A och B, van vid skiftarbete.",
+      "experience": [
+        {"date": "2019 – 2023", "title": "Lagerarbetare (orderplock, utleverans)", "org": "Nordfrakt AB, Exempelstad"},
+        {"date": "2016 – 2019", "title": "Butiksbiträde", "org": "Matboden, Exempelstad"},
+        {"date": "2014 – 2016", "title": "Personlig assistent", "org": "Omsorgsbolaget, Exempelstad"}
+      ],
+      "education": [
+        {"date": "2011 – 2014", "title": "Handels- och administrationsprogrammet", "org": "Exempelgymnasiet"}
+      ],
+      "qualifications": ["B-körkort", "Truckkort A och B"],
+      "interests": ["Löpning", "Matlagning", "Bygga datorer"],
+      "strengths": ["Noggrann", "Lugn under press", "Strukturerad", "Punktlig"],
+      "personality": [{"label": "Noggrannhet", "value": 9}, {"label": "Stresstålighet", "value": 8}]
+    }
+  }
+}

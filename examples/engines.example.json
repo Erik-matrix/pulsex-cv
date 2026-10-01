@@ -1,0 +1,19 @@
+{
+  "_note": "Copy to Documents\\pulse_cv\\engines.json, or add the models in the window under Models (keys can only be entered there: they are stored encrypted for your Windows account).",
+  "engines": [
+    {
+      "name": "Llama 3 8B (AI Sweden) on the NPU",
+      "kind": "llama",
+      "gguf": "C:\\models\\llama3-8b-instruct-ai-sweden-q4_0.gguf",
+      "server": "C:\\pulsex-zimage\\bin\\llama-server.exe",
+      "device": "npu"
+    },
+    {
+      "name": "The same model on the processor",
+      "kind": "llama",
+      "gguf": "C:\\models\\llama3-8b-instruct-ai-sweden-q4_0.gguf",
+      "server": "C:\\llama.cpp\\llama-server.exe",
+      "device": "cpu"
+    }
+  ]
+}

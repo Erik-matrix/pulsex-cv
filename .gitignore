@@ -1,0 +1,18 @@
+# your own details and drafts never belong in a repository
+work/
+bin/work/
+cv_data.json
+engines.json
+settings.json
+vault/
+
+# build output
+build/
+*.pdb
+*.obj
+*.ilk
+
+# models
+*.gguf
+*.bin
+models/

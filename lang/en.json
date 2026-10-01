@@ -1,0 +1,174 @@
+{
+  "_about": "PulseX CV, English. Everything the program knows about the language is in this file: what work demands and how an ad or a CV shows it (prioritising), job titles and word endings (spelling), the sentences it offers and writes (suggestions), the questions to a local model, and the headings on the PDFs. Copy it to xx.json to add a language.",
+  "_keys": "In every word list 'a|*b|c': a word must START a word in the text; *word may also stand inside one. Without the star 'pace' is not found inside 'workspace'.",
+  "language": "en",
+  "detect": [" the ", " and ", " of ", " to ", " with ", " you ", " for ", " is ", " are ", " we "],
+
+  "demands": [
+    {"say": "attention to detail",              "shown_by": "accura|attention to detail|careful|meticulous|thorough|precis",        "occupations": "*mechanic|cook|chef|*fitter|assembler|inspector|laborator"},
+    {"say": "a fast pace",                      "shown_by": "fast-paced|fast paced|pace|under pressure|time pressure|busy",        "occupations": "cook|chef|kitchen|restaurant|waiter|waitress|cashier"},
+    {"say": "physical work",                    "shown_by": "physical|heavy lifting|manual handling|lifting",                      "occupations": "warehouse|cleaner|builder|construction|forklift|removal|labourer|laborer|carer|carpenter"},
+    {"say": "practical work with my hands",     "shown_by": "practical|hands-on|assembl|workshop|repair|install",                  "occupations": "*mechanic|carpenter|*fitter|welder|electrician|cook|chef|baker"},
+    {"say": "keeping the workplace in order",   "shown_by": "tidy|organised|organized|orderly|housekeeping",                       "occupations": "warehouse|cleaner|cook|chef|kitchen"},
+    {"say": "teamwork",                         "shown_by": "team|collaborat|colleague|co-worker",                                 "occupations": "cook|chef|kitchen|warehouse|teacher|assistant|labourer|laborer"},
+    {"say": "customer service",                 "shown_by": "customer|client|service-minded|service minded",                       "occupations": "shop|sales|waiter|waitress|reception|cashier"},
+    {"say": "keeping to times",                 "shown_by": "punctual|deadline|on time|timekeeping",                               "occupations": "driver|courier"},
+    {"say": "technical understanding",          "shown_by": "technical|technolog|engine|mechanic",                                 "occupations": "technician|engineer|electrician"},
+    {"say": "troubleshooting",                  "shown_by": "troubleshoot|fault-finding|fault finding|problem-solving|problem solving", "occupations": "*mechanic|technician|electrician"},
+    {"say": "safety awareness",                 "shown_by": "safety|safe working",                                                 "occupations": "forklift|electrician|welder|construction|builder"},
+    {"say": "planning my own work",             "shown_by": "planning|independent|self-motivated|own initiative",                  "occupations": "teacher|secretary|officer"},
+    {"say": "handling goods",                   "shown_by": "goods|stock|picking|packing|warehouse|forklift|parcel|deliver",       "occupations": "driver|shop"},
+    {"say": "working to set routines",          "shown_by": "routine|procedure",                                                   "occupations": "cleaner|operator|labourer|laborer"},
+    {"say": "communicating with many people",   "shown_by": "communicat|present|public speaking|customer|sales|sell",              "occupations": "teacher|secretary|sales|interviewer|journalist"},
+    {"say": "responsibility for other people",  "shown_by": "caring|care for|pupils|students|patient|vulnerable|service users",    "occupations": "assistant|teacher|carer|nurse|childminder"},
+    {"say": "documentation",                    "shown_by": "document|administrat|report|record-keeping|records",                  "occupations": "secretary|officer|administrator"},
+    {"say": "responsibility for money",         "shown_by": "budget|financ|cash handling",                                         "occupations": "accountant|treasurer|bookkeeper"},
+    {"say": "selling",                          "shown_by": "sales|sell",                                                          "occupations": "sales|shop"},
+    {"say": "negotiating",                      "shown_by": "negotiat",                                                            "occupations": "sales|buyer|purchas"},
+    {"say": "leadership",                       "shown_by": "leadership|supervis|line management|team leader",                     "occupations": "manager|supervisor|foreman|leader"},
+    {"say": "teaching others",                  "shown_by": "train others|teach|mentor|coach|instruct",                            "occupations": "instructor|trainer|teacher"}
+  ],
+  "joints": [
+    "What it shares with the job you offer is {x}.",
+    "That, too, called for {x}.",
+    "There as well, it came down to {x}."
+  ],
+
+  "asks": [
+    {"id": "extra", "when": "extra work|on call|on-call|as needed|as and when|casual|zero-hours|zero hours",
+     "say": "Extra work where I step in when needed suits me well."},
+    {"id": "hours", "when": "evening|night|weekend|shift|flexible hours|varying hours|irregular hours|unsocial hours",
+     "say": "I can work varying hours[[, including {parts}]].",
+     "variants": [{"when": "shift", "say": "I can work shifts[[, including {parts}]]."}],
+     "parts": [{"when": "evening", "word": "evenings"}, {"when": "night", "word": "nights"}, {"when": "weekend", "word": "weekends"}]},
+    {"id": "english", "when": "english", "say": "I speak and write English fluently."},
+    {"id": "swedish", "when": "swedish", "say": "I speak and write Swedish."},
+    {"id": "licence", "when": "driving licence|driving license|driver's license|drivers license|driver’s license", "say": "I hold a full driving licence."},
+    {"id": "forklift", "when": "forklift licence|forklift license|forklift certificate|forklift certified", "say": "I hold a forklift licence."},
+    {"id": "car", "when": "own car|own vehicle|access to a car|access to a vehicle", "say": "I have access to a car."},
+    {"id": "physical", "when": "heavy lifting|physically demanding|physical work|physically fit|manual handling", "say": "I am used to physical work.",
+     "variants": [{"when": "heavy lifting", "say": "I am used to physical work and heavy lifting."}]},
+    {"id": "ergonomic", "when": "ergonomic", "say": "I work ergonomically."},
+    {"id": "pace", "when": "fast-paced|fast paced|high pace|high tempo|under pressure", "say": "I am comfortable in a fast-paced environment."},
+    {"id": "independently", "when": "independently|own initiative|self-motivated|self-starter", "say": "I am used to working independently."},
+    {"id": "team", "when": "team|collaborat|together with colleagues", "say": "I am used to working with others."},
+    {"id": "start", "when": "immediate start|start immediately|as soon as possible|asap", "say": "I can start immediately."},
+    {"id": "record", "when": "dbs check|background check|criminal record", "say": "I can provide a criminal record check."},
+    {"id": "computer", "when": "computer literate|computer skills|it literate|it skills", "say": "I have good computer skills."},
+    {"id": "18", "when": "over 18|at least 18|18 years or older|aged 18", "say": "I am over 18."},
+    {"id": "school", "when": "high school diploma|secondary education|gcse", "say": "I have completed secondary education."}
+  ],
+  "experience": {
+    "_about": "'experience of <x>' in the ad becomes the sentence 'I have experience of <x>.' with the ad's own words, cut at a stop word and at most max_words long. covered: a phrase that the list above says already is left out.",
+    "leads": [
+      {"find": "experience of ",   "say": "I have experience of {x}."},
+      {"find": "experience in ",   "say": "I have experience in {x}."},
+      {"find": "experience with ", "say": "I have experience with {x}."},
+      {"find": "familiar with ",   "say": "I am familiar with {x}."}
+    ],
+    "stops": [" is ", " are ", " and you", " and have", " would be", " will be", " but ", " so ", " which ", " who ", " that ", " required", " preferred",
+              " desirable", " essential", " an advantage", " a plus", " - ", " – ", " or similar", " as well as "],
+    "covered": [
+      {"when": "pace|pressure", "id": "pace"},
+      {"when": "heavy lifting|physical", "id": "physical"},
+      {"when": "team", "id": "team"},
+      {"when": "independent", "id": "independently"}
+    ],
+    "max_words": 8,
+    "max_finds": 5
+  },
+  "merge_prefixes": ["I speak and write ", "I hold ", "I have ", "I am used to "],
+
+  "spelling": {
+    "_about": "windows: the languages asked of Windows' own spell checker, the first one that is installed is used (titles and notes under Your details are checked with it). endings: one ordinary ending is taken off a word before it is looked for in a text (packing -> pack), longest first. fill_words: words that say nothing about a job and are not counted when a sentence is checked against the facts.",
+    "windows": ["en-GB", "en-US"],
+    "endings": ["ations", "ation", "ings", "ing", "ers", "ies", "ed", "er", "es", "s", "y"],
+    "fill_words": ["worked", "working", "learned", "learnt", "during", "these", "those", "there", "their", "which", "where", "while", "after", "before",
+                   "about", "other", "various", "different", "responsible", "including", "included", "education", "training", "experience", "knowledge",
+                   "skills", "between", "period", "started", "finished", "gained", "received", "studied", "became", "being"]
+  },
+
+  "words": {
+    "_about": "Small words the program needs when it writes or reads a sentence.",
+    "and": "and",
+    "and_also": "as well as",
+    "including": "including",
+    "I": "I",
+    "i_words": ["i", "my"],
+    "verb_prefix": "",
+    "job_markers": ["consists of ", "involves ", "includes ", "comprises "],
+    "cut_tails": [", which"],
+    "grade_words": ["grade"],
+    "noun_endings": ["ness ", "ity ", "skills ", "skill ", "ship ", "ability ", "awareness "],
+    "course_verbs": [
+      {"when": "studies", "verb": "pursued"},
+      {"when": "degree|diploma|certificate", "verb": "earned"},
+      {"when": "programme|program|course|training", "verb": "completed"}
+    ]
+  },
+
+  "sentences": {
+    "_about": "What the program writes itself. {title}, {employer}, {years} are the user's own words; {a:title} is 'a' or 'an' for that title. [[ ... ]] is left out when what it holds is empty.",
+    "have_job": "worked as {a:title} {title}[[ at {employer}]][[ ({years})]]",
+    "have_job_head": "worked as {a:title} {title}",
+    "have_job_place": "[[ at {employer}]][[ ({years})]]",
+    "have_job_drop": "worked ",
+    "have_edu": "trained as {a:title} {title}[[ at {employer}]][[ ({years})]]",
+    "have_course": "{verb} {title}[[ at {employer}]][[ ({years})]]",
+    "i_have": "I have {x}.",
+    "also_have": "I have also {x}.",
+    "start_job": "As {a:title} {title}",
+    "start_edu": "My training as {a:title} {title}",
+    "start_course": "I {verb} {title}",
+    "detail": "which includes {x}",
+    "detail_verb": "which involves {x}",
+    "job_fallback": "The work is {role} at {company}.",
+    "as_person": "As a person I am {x}.",
+    "strengths_are": "My strengths are {x}.",
+    "licences": "I hold {x}.",
+    "references": "References are available on request.",
+    "summary_relevant": "Most relevant for this job: {x}.",
+    "summary_jobs": "work as {a:x} {x}",
+    "summary_edu": "training as {a:title} {title}",
+    "opening_default": "I am writing to you because I saw your ad for {roll}, {detalj}."
+  },
+
+  "prompts": {
+    "_about": "The questions to a model file on this PC (one paragraph at a time). The cloud engines get the long instruction that is in the program, plus the line under cloud_language.",
+    "system": "You write short parts of a cover letter in English for a job applicant. Rules:\n- Write in the first person, plainly, in short sentences.\n- Use only what is under FACTS. Never invent duties, years, employers or skills.\n- Mention no other jobs or education than what is under FACTS.\n- No clichés, no pleasantries, no repeating of the ad's text.\n- Reply with the requested text only: no heading, no quotation marks, no explanation.",
+    "ad": "AD ({role}, {company}):\n{ad}\n\n",
+    "job": "Sum up the duties in the ad in ONE sentence of at most 25 words. Begin with the words \"The work consists of\".",
+    "job_line": "THE JOB: {role} at {company}. {job}\n\n",
+    "facts": "FACTS ABOUT ME:\n- {kind}{item}\n",
+    "kind_job": "Job: ",
+    "kind_edu": "Education: ",
+    "documents": "From my documents:\n{about}\n",
+    "item_two": "\nWrite one or two sentences in the first person and the past tense. The first begins with the words \"{start}\" and says where and when it was. Then say what I did or learned",
+    "item_one": "\nWrite ONE sentence in the first person and the past tense. It begins with the words \"{start}\" and says where and when it was and what I did or learned",
+    "item_tail": " - only what is under FACTS ABOUT ME, with the same words for title, place and years. No conclusions and no judgements.",
+    "traits": "LIST:\n{list}\nWhich THREE things in LIST suit THE JOB best? Reply with only those three, in exactly the words of LIST, separated by commas.",
+    "cloud_language": "\nSPRAK: the ad is in English - write INGRESS, DETALJ and BREV in English."
+  },
+
+  "labels": {
+    "_about": "Headings and fixed lines on the CV and the letter.",
+    "summary": "Summary",
+    "experience": "Experience",
+    "other_experience": "Other experience",
+    "education": "Education",
+    "education_courses": "Education & courses",
+    "other": "Other",
+    "qualifications": "Qualifications",
+    "personal_interests": "Interests",
+    "personal_info": "Contact",
+    "traits": "Strengths",
+    "personality": "Personality",
+    "interests": "Interests",
+    "page": "Page {n} of {m}",
+    "page_single": "Page {n}",
+    "tailored_cv": "CV – {role}",
+    "application": "Application: {role}",
+    "letter": "Cover letter",
+    "regards": "Kind regards,"
+  }
+}

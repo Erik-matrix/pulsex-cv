@@ -1,0 +1,177 @@
+{
+  "_about": "PulseX CV, Swedish. Everything the program knows about the language is in this file: what work demands and how an ad or a CV shows it (prioritising), job titles and word endings (spelling), the sentences it offers and writes (suggestions), the questions to a local model, and the headings on the PDFs. Copy it to xx.json to add a language.",
+  "_keys": "In every word list 'a|*b|c': a word must START a word in the text; *word may also stand inside one (the head of a compound: *lager finds 'centrallager'). Without the star 'teknik' is not found inside 'livsmedelsteknik'.",
+  "language": "sv",
+  "detect": [" och ", " att ", " är ", " för ", " med ", " som ", " på ", " till ", " vi ", " du "],
+
+  "demands": [
+    {"say": "noggrannhet",                       "shown_by": "noggran",                                                   "occupations": "*mekani|*kock|*montör|*kontrollant|laborat"},
+    {"say": "högt tempo",                        "shown_by": "*tempo|tidspress",                                          "occupations": "*kock|*kök|restaurang|*servit|*kassa"},
+    {"say": "fysiskt arbete",                    "shown_by": "fysisk|tunga lyft|lyfta",                                   "occupations": "*lager|*städ|*lokalvård|*bygg|*truck|*flytt|*arbetare|*vårdbiträde|*undersköt|*snickar"},
+    {"say": "praktiskt arbete med händerna",     "shown_by": "praktisk|monter|*verkstad|reparer|händig",                  "occupations": "*mekani|*snickar|*montör|*svets|*elektriker|*kock|*bagar|*reparat"},
+    {"say": "ordning på arbetsplatsen",          "shown_by": "ordning|organiser",                                         "occupations": "*lager|*städ|*lokalvård|*kock|*kök"},
+    {"say": "samarbete i arbetslag",             "shown_by": "samarbet|team|arbetslag|*kolleg",                           "occupations": "*kock|*kök|*lager|*lärare|*assistent|*arbetare"},
+    {"say": "service mot kunder",                "shown_by": "*kund|servicekänsla|serviceinrikt",                         "occupations": "*butik|*säljare|*servit|*reception|*kassa"},
+    {"say": "ansvar för att tider hålls",        "shown_by": "punktlig|deadline|hålla tider|passa tider",                 "occupations": "*chaufför|*förare|*bud"},
+    {"say": "teknisk förståelse",                "shown_by": "teknisk|teknik|motor|*mekani",                              "occupations": "*tekniker|*ingenjör|*elektriker"},
+    {"say": "felsökning",                        "shown_by": "felsök|problemlös",                                         "occupations": "*mekani|*tekniker|*elektriker"},
+    {"say": "säkerhetstänkande",                 "shown_by": "*säkerhet",                                                 "occupations": "*truck|*elektriker|*svets|*bygg"},
+    {"say": "planering av det egna arbetet",     "shown_by": "planer|självständig|självgående",                           "occupations": "*lärare|*sekreterare|*handläggare"},
+    {"say": "hantering av varor",                "shown_by": "varor|gods|plock|packning|packa|*lager|truck|*terminal",    "occupations": "*chaufför|*butik"},
+    {"say": "arbete efter fasta rutiner",        "shown_by": "*rutin",                                                    "occupations": "*städ|*lokalvård|*operatör|*arbetare"},
+    {"say": "kommunikation med många människor", "shown_by": "kommunik|presenter|genomgång|föreläs|muntlig|talskriv|*kund|*sälj", "occupations": "*lärare|*sekreterare|*säljare|*intervjuare|*informat|*journalist"},
+    {"say": "ansvar för andra människor",        "shown_by": "omsorg|brukare|elever|patient|vård|sjukvård|hemtjänst",     "occupations": "*assistent|*lärare|*kontaktperson|*förskol|*undersköt|*vårdbiträde"},
+    {"say": "dokumentation",                     "shown_by": "dokument|administr|rapporter",                              "occupations": "*sekreterare|*handläggare|*administrat"},
+    {"say": "ansvar för ekonomi",                "shown_by": "budget|ekonomi",                                            "occupations": "*ekonom|*kassör"},
+    {"say": "försäljning",                       "shown_by": "försälj|*sälj",                                             "occupations": "*säljare|*butik"},
+    {"say": "förhandling",                       "shown_by": "förhandl",                                                  "occupations": "*säljare|*inköp"},
+    {"say": "ledarskap",                         "shown_by": "ledarskap|arbetsled|personalansvar",                        "occupations": "*chef|*ledare|*förman"},
+    {"say": "handledning av andra",              "shown_by": "handled|undervis|lära ut|utbilda|*lärare",                  "occupations": "*instruktör|*handledare"}
+  ],
+  "joints": [
+    "Gemensamt med tjänsten hos er är {x}.",
+    "Även där krävdes {x}.",
+    "Också där handlade det om {x}."
+  ],
+
+  "asks": [
+    {"id": "extra", "when": "extrajobb|vid behov|behovsanställ|timanställ|timvikari|extrapersonal|rycka in",
+     "say": "Ett extrajobb där jag rycker in vid behov passar mig bra."},
+    {"id": "tider", "when": "kväll|natt|helg|*skiftarbete|*skiftgång|*-skift|tvåskift|treskift|i skift|arbeta skift|skifttjänst|varierande arbetstid|varierande tider|flexibla arbetstid|flexibla tider|obekväm arbetstid|obekväma arbetstid|oregelbund",
+     "say": "Jag kan arbeta på varierande tider[[, även {parts}]].",
+     "variants": [{"when": "*skiftarbete|*skiftgång|*-skift|tvåskift|treskift|i skift|arbeta skift|skifttjänst", "say": "Jag kan arbeta skift[[, även {parts}]]."}],
+     "parts": [{"when": "kväll", "word": "kvällar"}, {"when": "natt", "word": "nätter"}, {"when": "helg", "word": "helger"}]},
+    {"id": "svenska", "when": "svenska", "say": "Jag talar och skriver svenska flytande."},
+    {"id": "engelska", "when": "engelska", "say": "Jag talar och skriver engelska."},
+    {"id": "korkort", "when": "*körkort", "say": "Jag har B-körkort.",
+     "variants": [{"when": "c-körkort|ce-körkort|körkort c|c körkort|ce körkort", "say": "Jag har C-körkort."}]},
+    {"id": "truckkort", "when": "*truckkort", "say": "Jag har truckkort."},
+    {"id": "bil", "when": "tillgång till bil|tillgång till egen bil|egen bil", "say": "Jag har tillgång till egen bil."},
+    {"id": "fysiskt", "when": "tunga lyft|fysiskt|fysisk ", "say": "Jag är van vid fysiskt arbete.",
+     "variants": [{"when": "tunga lyft|lyfta tungt", "say": "Jag är van vid fysiskt arbete och tunga lyft."}]},
+    {"id": "ergonomi", "when": "ergonomi", "say": "Jag arbetar ergonomiskt."},
+    {"id": "tempo", "when": "*tempo", "say": "Jag trivs i ett högt tempo."},
+    {"id": "sjalvstandigt", "when": "självständig", "say": "Jag är van att arbeta självständigt."},
+    {"id": "lag", "when": "team|arbetslag|i grupp|lagspelare|tillsammans med kolleg|samarbet", "say": "Jag är van att arbeta tillsammans med andra."},
+    {"id": "omgaende", "when": "omgående|snarast|omedelbar", "say": "Jag kan börja omgående."},
+    {"id": "belastning", "when": "belastningsregist", "say": "Jag kan visa upp ett utdrag ur belastningsregistret."},
+    {"id": "dator", "when": "*datorvana|*datavana", "say": "Jag har god datorvana."},
+    {"id": "18", "when": "fyllt 18|minst 18 år|över 18", "say": "Jag har fyllt 18 år."},
+    {"id": "gymnasium", "when": "gymnasieutbildning|gymnasial utbildning|gymnasiekompetens|gymnasieexamen|slutförd gymnasie", "say": "Jag har gymnasieutbildning."}
+  ],
+  "experience": {
+    "_about": "'erfarenhet av <x>' in the ad becomes the sentence 'Jag har erfarenhet av <x>.' with the ad's own words, cut at a stop word and at most max_words long. covered: a phrase that the list above says already is left out.",
+    "leads": [
+      {"find": "erfarenhet av ",   "say": "Jag har erfarenhet av {x}."},
+      {"find": "erfarenhet från ", "say": "Jag har erfarenhet från {x}."},
+      {"find": "erfarenhet inom ", "say": "Jag har erfarenhet inom {x}."},
+      {"find": "vana av ",         "say": "Jag har vana av {x}."},
+      {"find": "van vid ",         "say": "Jag är van vid {x}."}
+    ],
+    "stops": [" är ", " som ", " men ", " så ", " då ", " där ", " och du", " och har", " och är", " samt ", " eller har", " krävs", " vilket", " - ", " – ",
+              " meriterande", " ett plus", " för att", " har du", " ser vi"],
+    "covered": [
+      {"when": "tempo", "id": "tempo"},
+      {"when": "tunga lyft|fysisk", "id": "fysiskt"},
+      {"when": "team|grupp|tillsammans", "id": "lag"},
+      {"when": "självständig", "id": "sjalvstandigt"}
+    ],
+    "max_words": 8,
+    "max_finds": 5
+  },
+  "merge_prefixes": ["Jag talar och skriver ", "Jag har ", "Jag är van vid "],
+
+  "spelling": {
+    "_about": "windows: the languages asked of Windows' own spell checker, the first one that is installed is used (titles and notes under Your details are checked with it). endings: one ordinary ending is taken off a word before it is looked for in a text (plockning -> plock), longest first. fill_words: words that say nothing about a job and are not counted when a sentence is checked against the facts.",
+    "windows": ["sv-SE"],
+    "endings": ["ningarna", "eringen", "ningen", "ningar", "ering", "andet", "ning", "ande", "arna", "erna", "orna", "ar", "er", "or", "en", "et", "a", "e", "s"],
+    "fill_words": ["arbetade", "jobbade", "lärde", "också", "under", "denna", "detta", "dessa", "olika", "ansvarig", "ansvarade", "både", "inom", "bland",
+                   "annat", "andra", "sedan", "efter", "mycket", "samma", "även", "dessutom", "utbildning", "utbildningen", "arbetet", "arbete", "erfarenhet",
+                   "kunskap", "kunskaper", "mellan", "liksom", "såsom", "period", "perioden", "pågick", "började", "slutade", "gjorde", "hade", "blev", "fick",
+                   "mina", "mitt"]
+  },
+
+  "words": {
+    "_about": "Small words the program needs when it writes or reads a sentence.",
+    "and": "och",
+    "and_also": "samt",
+    "including": "inklusive",
+    "I": "Jag",
+    "i_words": ["jag"],
+    "verb_prefix": "att ",
+    "job_markers": ["består av ", "bestående av ", "innebär ", "omfattar "],
+    "cut_tails": [", vilket"],
+    "grade_words": ["betyg"],
+    "noun_endings": ["förmåga ", "het ", "vana ", "känsla ", "kompetens ", "kunskap ", "kunskaper ", "skap "],
+    "course_verbs": [
+      {"when": "studier", "verb": "bedrivit"},
+      {"when": "examen", "verb": "tagit"},
+      {"when": "utbildning|program|kurs|linje", "verb": "gått"}
+    ]
+  },
+
+  "sentences": {
+    "_about": "What the program writes itself. {title}, {employer}, {years} are the user's own words. [[ ... ]] is left out when what it holds is empty.",
+    "have_job": "arbetat som {title}[[ hos {employer}]][[ ({years})]]",
+    "have_job_head": "arbetat som {title}",
+    "have_job_place": "[[ hos {employer}]][[ ({years})]]",
+    "have_job_drop": "arbetat ",
+    "have_edu": "utbildning som {title}[[ från {employer}]][[ ({years})]]",
+    "have_course": "{verb} {title}[[ vid {employer}]][[ ({years})]]",
+    "i_have": "Jag har {x}.",
+    "also_have": "Dessutom har jag {x}.",
+    "start_job": "Som {title}",
+    "start_edu": "Min utbildning till {title}",
+    "start_course": "Jag har {verb} {title}",
+    "detail": "där {x} ingår",
+    "detail_verb": "där det ingår {x}",
+    "job_fallback": "Arbetet är {role} hos {company}.",
+    "as_person": "Som person är jag {x}.",
+    "strengths_are": "Mina styrkor är {x}.",
+    "licences": "Jag har {x}.",
+    "references": "Referenser lämnas på begäran.",
+    "summary_relevant": "Särskilt relevant för tjänsten: {x}.",
+    "summary_jobs": "arbete som {x}",
+    "summary_edu": "utbildning som {title}",
+    "opening_default": "Anledningen till att jag skriver till er är att jag såg er annons om {roll}, {detalj}."
+  },
+
+  "prompts": {
+    "_about": "The questions to a model file on this PC (one paragraph at a time). The cloud engines get the long instruction that is in the program.",
+    "system": "Du skriver korta delar av ett personligt brev på svenska åt en jobbsökande. Regler:\n- Skriv i jag-form, sakligt, med korta meningar.\n- Använd bara det som står under FAKTA. Hitta aldrig på arbetsuppgifter, år, arbetsgivare eller kunskaper.\n- Nämn inga andra jobb eller utbildningar än det som står under FAKTA.\n- Inga klichéer, inga artighetsfraser, ingen upprepning av annonsens text.\n- Svara bara med den efterfrågade texten: ingen rubrik, inga citattecken, ingen förklaring.",
+    "ad": "ANNONS ({role}, {company}):\n{ad}\n\n",
+    "job": "Sammanfatta arbetsuppgifterna i annonsen i EN mening på högst 25 ord. Börja med orden \"Arbetet består av\".",
+    "job_line": "TJÄNSTEN: {role} hos {company}. {job}\n\n",
+    "facts": "FAKTA OM MIG:\n- {kind}{item}\n",
+    "kind_job": "Jobb: ",
+    "kind_edu": "Utbildning: ",
+    "documents": "Ur mina dokument:\n{about}\n",
+    "item_two": "\nSkriv en eller två meningar i jag-form och dåtid. Den första börjar med orden \"{start}\" och säger var och när det var. Berätta sedan vad jag gjorde eller lärde mig",
+    "item_one": "\nSkriv EN mening i jag-form och dåtid. Den börjar med orden \"{start}\" och säger var och när det var och vad jag gjorde eller lärde mig",
+    "item_tail": " - bara sådant som står under FAKTA OM MIG, med samma ord för titel, plats och år. Inga slutsatser och inga värderingar.",
+    "traits": "LISTA:\n{list}\nVilka TRE saker i LISTA passar TJÄNSTEN bäst? Svara med bara de tre, med exakt samma ord som i LISTA, åtskilda med komma.",
+    "cloud_language": ""
+  },
+
+  "labels": {
+    "_about": "Headings and fixed lines on the CV and the letter.",
+    "summary": "Sammanfattning",
+    "experience": "Yrkeserfarenhet",
+    "other_experience": "Övrig yrkeserfarenhet",
+    "education": "Utbildning",
+    "education_courses": "Utbildning & kurser",
+    "other": "Övrigt",
+    "qualifications": "Behörigheter",
+    "personal_interests": "Personliga intressen",
+    "personal_info": "Personlig info",
+    "traits": "Egenskaper",
+    "personality": "Personlighet",
+    "interests": "Intressen",
+    "page": "Sida {n} av {m}",
+    "page_single": "Sida {n}",
+    "tailored_cv": "Riktat CV – {role}",
+    "application": "Ansökan: {role}",
+    "letter": "Personligt brev",
+    "regards": "Med vänliga hälsningar,"
+  }
+}
