@@ -44,17 +44,22 @@ against your details.
   - **A cloud model** — OpenAI-compatible, Anthropic or Google Gemini, with your own key. The key is stored
     encrypted for your Windows account (DPAPI).
   - The built-in "local" engine runs a Qwen3-4B bundle through Qualcomm's Genie runtime. The bundle is not in this
-    repository; without it, choose one of the engines above under *Models*.
+    repository; the window shows it as *not installed* and you choose one of the engines above.
 
 ## Start
 
-1. Clone the repository or take the zip. Run `bin\pulse_cv_gui.exe`.
+You can look around first: nothing has to be filled in to open the program. The line at the top of the first page
+says what is still missing — your details, your merits, a model — with a button to each.
+
+1. Take the zip of the [latest release](https://github.com/Erik-matrix/pulsex-cv/releases/latest), or clone the
+   repository. Run `bin\pulse_cv_gui.exe`.
 2. **Your details** — name, contact, jobs and education, one per line:
    `years | title | employer, town | what the job involved`. The fourth field is optional and worth filling in: it is
    what the letter can say about the job, and it is printed under the job on the CV when you choose it.
 3. **Merits** — add documents about you (text, Word or PDF; PDF needs `pdftotext` on the PATH). A local model gets
    the passages about the jobs you chose; a cloud model gets everything.
-4. **Models** — add your model, press *Test*.
+4. **Models** — add your model and press *Test*. A model you add on this PC is chosen by itself; a cloud model you
+   choose under *Written by*, because it receives your merits.
 5. **Application** — paste the link to the ad, press *Fetch*, tick what to build on and what the ad asks for,
    press *Generate*. Edit the texts on the right if you like and press *Re-render*.
 

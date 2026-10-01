@@ -299,8 +299,26 @@ struct PulseCvApp {
         if(sel=="local"||sel=="claude") return true;
         if(sel.rfind("cloud:",0)==0) for(auto& e: engines) if(e.name==sel.substr(6)) return true;
         return false; }
+    // Is the built-in Qwen model really here? Next to the program, or where settings.json says ("qwen_bundle").
+    // Looked up every few seconds. A first-time user has no bundle, and the window must then ask for a model instead
+    // of offering one that cannot run.
+    bool qwen_here(){
+        static ULONGLONG at=0; static bool here=false; const ULONGLONG now=GetTickCount64();
+        if(at && now-at<3000) return here;
+        at=now; std::error_code ec; std::string b=P("models\\qwen3-4b-4k\\genie_bundle");
+        if(!std::filesystem::exists(std::filesystem::u8path(b+"\\Genie.dll"),ec)){
+            std::ifstream f(std::filesystem::u8path(settings_path));
+            try{ nlohmann::json j; if(f) f>>j; b=j.value("qwen_bundle",std::string()); }catch(...){ b.clear(); } }
+        here = !b.empty() && std::filesystem::exists(std::filesystem::u8path(b+"\\Genie.dll"),ec);
+        return here; }
+    bool no_model(){ return engine_sel=="local" && !qwen_here(); }   // nothing is chosen that can write
+    // The built-in model chosen but not installed: a model the user has added on this PC is taken instead, if there
+    // is one. Never a cloud model by itself - that sends the merits away, and is the user's own choice to make.
+    void engine_settle(){
+        if(!engine_exists(engine_sel)) engine_sel="local";
+        if(no_model()) for(auto& e: engines) if(engine_is_local(e)){ engine_sel="cloud:"+e.name; break; } }
     std::string engine_label(const std::string& sel){
-        if(sel=="local")  return "Qwen3-4B on this PC";
+        if(sel=="local")  return qwen_here()? "Qwen3-4B on this PC" : "Choose a model\xE2\x80\xA6";
         if(sel=="claude") return "Claude Code";
         return sel.substr(6); }
     void ed_open(int idx){
@@ -496,7 +514,7 @@ $enc=New-Object System.Text.UTF8Encoding($false)
     }
     void cv_run(bool rerender){
         if(cv_busy.load()) return; if(cv_worker.joinable()) cv_worker.join();
-        if(!engine_exists(engine_sel)) engine_sel="local";
+        engine_settle();
         std::string role=cv_role, company=cv_company, ad=cv_ad, extra=cv_extra, ing=cv_ingress, brev=cv_brev, opening=cv_opening;
         std::string intr=cv_interests, str=cv_strengths, engine=engine_sel, elabel=engine_label(engine_sel);
         std::string lead; for(auto& t: cv_lead) lead+=t+"\n";
@@ -820,9 +838,11 @@ static void draw_action_bar(PulseCvApp& app, bool wide){
     const ImGuiStyle& st=ImGui::GetStyle();
     const bool busy=app.cv_busy.load();
     std::string s; int kind; { std::lock_guard<std::mutex> g(app.mu); s=app.status; kind=app.status_kind; }
-    if(!app.engine_exists(app.engine_sel)) app.engine_sel="local";
+    app.engine_settle();
+    const bool nomodel=app.no_model();
     if(kind==ST_IDLE){   // nothing has happened yet: say where the text will be written
-        if(app.engine_sel=="local") s="Ready. The texts are written on this PC \xE2\x80\x94 nothing leaves it.";
+        if(nomodel) s="No model is chosen yet. Have a look around \xE2\x80\x94 when you want a letter, pick who writes it under Written by, or add a model under Models.";
+        else if(app.engine_sel=="local") s="Ready. The texts are written on this PC \xE2\x80\x94 nothing leaves it.";
         else if(app.engine_sel=="claude") s="Ready. Claude Code writes with your own Claude login: your merits and the ad are sent to Anthropic.";
         else { cloud_llm::Engine e; cloud_llm::find(app.engines,app.engine_sel.substr(6),e);
             s = engine_is_local(e) ? "Ready. "+e.name+" runs on this PC \xE2\x80\x94 nothing leaves it."
@@ -850,7 +870,8 @@ static void draw_action_bar(PulseCvApp& app, bool wide){
             const ImVec2 r0=ImGui::GetItemRectMin(), r1=ImGui::GetItemRectMax(); const float fs=FS*0.84f*g_scale;   // the note, right-aligned in the row
             const float tw=g_font->CalcTextSizeA(fs,FLT_MAX,0.0f,note).x;
             ImGui::GetWindowDrawList()->AddText(g_font,fs,ImVec2(r1.x-tw-px(4),r0.y+(r1.y-r0.y-fs)*0.5f),ImGui::GetColorU32(C_DIM),note); };
-        item("local","Qwen3-4B on this PC","private");
+        if(app.qwen_here()) item("local","Qwen3-4B on this PC","private");
+        else { ImGui::BeginDisabled(); item("local","Qwen3-4B on this PC","not installed"); ImGui::EndDisabled(); }
         item("claude","Claude Code","your login");
         for(auto& e: app.engines) item("cloud:"+e.name, e.name, engine_is_local(e)?"this PC":"cloud");
         ImGui::Separator();
@@ -859,7 +880,10 @@ static void draw_action_bar(PulseCvApp& app, bool wide){
     ImGui::EndGroup(); pop_combo();
     if(wide) rw.next(wEng);
     ImGui::BeginGroup(); if(wide) ImGui::Dummy(ImVec2(0,label_h()-st.ItemSpacing.y));
-    if(primary_button("Generate CV + letter",ImVec2(wide? wGen : ImGui::GetContentRegionAvail().x,0))) app.cv_run(false);
+    if(primary_button("Generate CV + letter",ImVec2(wide? wGen : ImGui::GetContentRegionAvail().x,0))){
+        // without a model no run can work: say where one is chosen, and leave the user where they are
+        if(nomodel) app.set_status(ST_WARN,"A letter needs a model to write it. Pick one under Written by, or add your own under Models \xE2\x80\x94 a model file on this PC, Claude Code or a cloud model.");
+        else app.cv_run(false); }
     ImGui::EndGroup();
     ImGui::EndDisabled();
 }
@@ -874,16 +898,21 @@ static void draw_apply(PulseCvApp& app){
     float top=0;
     if(!app.vault_loaded) app.vault_refresh();
     if(!app.pd_loaded) app.pd_load();
-    if(app.vault_files.empty() || !app.pd_exists){   // first run: say what is missing, once, with a way there
+    const bool nomodel=app.no_model();
+    if(app.vault_files.empty() || !app.pd_exists || nomodel){   // first run: say what is missing, once, with a way there
         begin_card("##first",ImVec2(0,0),nullptr,ImGuiChildFlags_AutoResizeY);
         ImGui::AlignTextToFramePadding();
         ImGui::PushFont(g_semi,0.0f); ImGui::TextUnformatted("Before the first letter"); ImGui::PopFont();
         ImGui::SameLine(0,px(14)); ImGui::AlignTextToFramePadding();
-        ImGui::TextDisabled("%s", !app.pd_exists && app.vault_files.empty() ? "fill in who you are, and add your old CV as merits."
-                                 : !app.pd_exists ? "fill in who you are \xE2\x80\x94 it is what the CV prints."
-                                                  : "add your old CV or certificates as merits \xE2\x80\x94 the letter is built from them.");
+        { std::vector<const char*> todo;
+          if(!app.pd_exists) todo.push_back("fill in who you are");
+          if(app.vault_files.empty()) todo.push_back("add your old CV as merits");
+          if(nomodel) todo.push_back("choose the model that writes");
+          std::string t; for(size_t k=0;k<todo.size();++k){ if(k) t += (k+1==todo.size()? " and " : ", "); t+=todo[k]; } t+='.';
+          ImGui::TextDisabled("%s", t.c_str()); }
         if(!app.pd_exists){ ImGui::SameLine(); if(ImGui::Button("Your details")) g_tab=TAB_DETAILS; }
         if(app.vault_files.empty()){ ImGui::SameLine(); if(ImGui::Button("Add merits")) g_tab=TAB_MERITS; }
+        if(nomodel){ ImGui::SameLine(); if(ImGui::Button("Choose a model")){ g_tab=TAB_MODELS; app.ed_open(-2); } }
         end_card();
         top = ImGui::GetItemRectSize().y + gap; vgap(gap);
     }
@@ -1042,7 +1071,8 @@ static void draw_models(PulseCvApp& app){
         hint("Who writes the summary and the letter. Pick one per application, at the bottom of the Application page.");
         ImGui::Dummy(ImVec2(0,px(2)));
         ImGui::BeginChild("##models",ImVec2(0,ImGui::GetContentRegionAvail().y-row_h-st.ItemSpacing.y));
-        if(row("local","Qwen3-4B on this PC","Built in \xC2\xB7 runs on the NPU \xC2\xB7 nothing leaves the PC",app.ed_idx==-1&&app.ed_builtin==0)){ app.ed_idx=-1; app.ed_builtin=0; }
+        if(row("local","Qwen3-4B on this PC",app.qwen_here()? "Built in \xC2\xB7 runs on the NPU \xC2\xB7 nothing leaves the PC" : "Not installed \xC2\xB7 the model bundle is not on this PC",
+               app.ed_idx==-1&&app.ed_builtin==0)){ app.ed_idx=-1; app.ed_builtin=0; }
         if(row("claude","Claude Code","Built in \xC2\xB7 your own Claude login \xC2\xB7 no API key",app.ed_idx==-1&&app.ed_builtin==1)){ app.ed_idx=-1; app.ed_builtin=1; }
         for(int k=0;k<(int)app.engines.size();k++){ auto& e=app.engines[k];
             std::string note = e.kind=="llama"? "This PC \xC2\xB7 "+file_name_of(e.gguf)+(e.device=="npu"?" \xC2\xB7 NPU":" \xC2\xB7 processor")
@@ -1053,7 +1083,12 @@ static void draw_models(PulseCvApp& app){
     };
     auto editor=[&](){
         if(app.ed_idx==-1){
-            if(app.ed_builtin==0){
+            if(app.ed_builtin==0 && !app.qwen_here()){
+                ImGui::TextWrapped("This engine needs a Qwen3-4B model bundle for Qualcomm's Genie runtime, and it is not on this PC. "
+                                   "Put the bundle in models\\qwen3-4b-4k\\genie_bundle next to the program, or use another model.");
+                ImGui::Dummy(ImVec2(0,px(4)));
+                hint("The quickest way to a model on this PC: press Add a model and point at a GGUF file and llama-server.exe.");
+            } else if(app.ed_builtin==0){
                 ImGui::TextWrapped("The model that comes with PulseX CV. It runs on the Snapdragon NPU of this PC, so your merits and "
                                    "the ad never leave it. It reads about 4,000 tokens at a time: long ads and long CVs are trimmed to fit.");
                 ImGui::Dummy(ImVec2(0,px(4)));
@@ -1224,7 +1259,7 @@ int main(int, char**){
 
     PulseCvApp app;
     app.engines_load(); app.settings_load(); app.lang_load();
-    if(!app.engine_exists(app.engine_sel)) app.engine_sel="local";
+    app.engine_settle();
     bool done=false;
     while(!done){
         MSG msg;
