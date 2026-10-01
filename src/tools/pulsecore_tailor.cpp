@@ -675,7 +675,7 @@ int main(int argc,char**argv){
       std::string text;
       auto feed=[&](const Row& r){ std::string t=r.title; size_t c=t.find_first_of(",("); if(c!=std::string::npos) t.erase(c);
           c=t.find(" \xE2\x80\x93 "); if(c!=std::string::npos) t.erase(c);
-          text += lower_sv(t)+". "; if(!r.note.empty()) text += r.note+". "; };
+          text += t+". "; if(!r.note.empty()) text += r.note+". "; };
       for(auto& e: base.experience) feed(e); for(auto& e: base.education) feed(e);
       std::vector<winspell::Finding> fs; std::string wnote;
       if(!g_L.spell_tags.empty() && winspell::check(g_L.spell_tags, text, fs, wnote)){
