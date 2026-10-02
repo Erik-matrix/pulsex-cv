@@ -8,6 +8,7 @@ vault/
 
 # build output
 build/
+installer/output/
 *.pdb
 *.obj
 *.ilk

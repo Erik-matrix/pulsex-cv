@@ -51,8 +51,11 @@ against your details.
 You can look around first: nothing has to be filled in to open the program. The line at the top of the first page
 says what is still missing — your details, your merits, a model — with a button to each.
 
-1. Take the zip of the [latest release](https://github.com/Erik-matrix/pulsex-cv/releases/latest), or clone the
-   repository. Run `bin\pulse_cv_gui.exe`.
+1. Run `PulseX-CV-Setup-x.y.exe` from the [latest release](https://github.com/Erik-matrix/pulsex-cv/releases/latest).
+   It installs for your own Windows account (no administrator), puts PulseX CV in the Start menu and can be removed
+   again under *Installed apps*; your details in `Documents\pulse_cv\` are never touched, by the installer or the
+   uninstaller. The installer is not code-signed, so Windows asks before it runs (*More info* › *Run anyway*).
+   Or, without installing: take the zip of the release, or clone the repository, and run `bin\pulse_cv_gui.exe`.
 2. **Your details** — name, contact, jobs and education, one per line:
    `years | title | employer, town | what the job involved`. The fourth field is optional and worth filling in: it is
    what the letter can say about the job, and it is printed under the job on the CV when you choose it.
@@ -116,6 +119,9 @@ CMake and Ninja for ARM64, and Qualcomm's QAIRT SDK for the Genie headers (only 
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang-cl -DCMAKE_CXX_COMPILER=clang-cl -DQNN_SDK=<path to qairt\x.y.z>
 ninja -C build
 ```
+
+The installer is made with [Inno Setup 6](https://jrsoftware.org/isinfo.php) from the files in this repository:
+`ISCC.exe installer\pulsex_cv.iss` writes `installer\output\PulseX-CV-Setup-x.y.exe`.
 
 ## License
 
